@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import br.com.joaocarvalhop.cm.excecao.ExplosaoException;
+
 public class CampoTeste {
 	
 	private Campo campo;
@@ -37,5 +39,84 @@ public class CampoTeste {
 		boolean resultado = campo.adicionarVizinho(vizinho);
 		// vai ver se é falso
 		assertFalse(resultado);
+	}
+	
+	@Test
+	void testeValorPadraoAtrubuidoMarcado() {
+		assertFalse(campo.isMarcado());
+	}
+	
+	@Test
+	void testeAlternarMarcacao() {
+		campo.alternarMarcacao();
+		assertTrue(campo.isMarcado());
+	}
+	
+	@Test
+	void testeAlternarMarcacaoDuasChamadas() {
+		campo.alternarMarcacao();
+		campo.alternarMarcacao();
+		assertFalse(campo.isMarcado());
+	}
+	
+	@Test
+	void testeNaoMinadoNaoMarcado() {
+		assertTrue(campo.abrir());
+	}
+	
+	@Test
+	void testeNaoMinadoMarcado() {
+		campo.alternarMarcacao();
+		assertFalse(campo.abrir());
+	}
+	
+	@Test
+	void testeMinadoMarcado() {
+		campo.alternarMarcacao();
+		campo.minar();
+		assertFalse(campo.abrir());
+	}
+	
+	@Test
+	void testeMinadoNaoMarcado() {
+		// resulta na explosao
+		campo.minar();
+		// assertThrows -> eu espero que seja lancada a excecao de explosao
+		// ref de arquivo .class
+		// expr lambda chamando o método abrir
+		assertThrows(ExplosaoException.class, () -> {
+			campo.abrir();
+		});
+	}
+	
+	@Test
+	void abrirComVizinhos1() {
+		// teste de abertura de vizihos
+		Campo campo22 = new Campo(2, 2);
+		Campo campo11 = new Campo(1, 1);
+		campo22.adicionarVizinho(campo11);
+		
+		campo.adicionarVizinho(campo22);
+		campo.abrir();
+		
+		assertTrue(campo22.isAberto() && campo11.isAberto());
+	}
+	
+	@Test
+	void abrirComVizinhos2() {
+		// teste de abertura de vizihos
+		Campo campo22 = new Campo(2, 2);
+		Campo campo12 = new Campo(1, 2);
+		campo12.minar();
+		
+		Campo campo11 = new Campo(1, 1);
+		campo22.adicionarVizinho(campo12);
+		campo22.adicionarVizinho(campo11);
+		
+		campo.adicionarVizinho(campo22);
+		campo.abrir();
+		
+		// posso usar assim !campo11.isAberto()
+		assertTrue(campo22.isAberto() && campo11.isFechado());
 	}
 }
