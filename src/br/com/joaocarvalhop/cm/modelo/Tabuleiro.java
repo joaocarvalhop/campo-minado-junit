@@ -25,7 +25,8 @@ public class Tabuleiro {
 		associarVizinhos();
 		sortearMinas();
 	}
-
+	
+	// está com problema
 	public void abrir(int linha, int coluna) {
 		try {
 			campos.parallelStream().filter(c -> c.getLinha() == linha && c.getColuna() == coluna).findFirst()

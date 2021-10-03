@@ -169,4 +169,9 @@ public class CampoTeste {
 
 		System.out.println(c5.toString());
 	}
+	
+	@Test
+	 void t() {
+	
+	}
 }
