@@ -117,25 +117,9 @@ public class CampoTeste {
 		// posso usar assim !campo11.isAberto()
 		assertTrue(campo22.isAberto() && campo11.isFechado());
 	}
-	
-	@Test
-	 void testeObjetivoAlcancadoDesvendado(){
-		Campo c7 = new Campo(2, 2);
-		c7.abrir();
-		c7.minar();
-		assertFalse(c7.objetivoAlcancado());
-	}
-	
-	@Test
-	 void testeObjetivoAlcancadoProtegido(){
-		Campo c8 = new Campo(2, 2);
-		c8.abrir();
-		c8.isMarcado();
-		assertTrue(c8.objetivoAlcancado());
-	}
 
 	@Test
-	 void testeToString() {
+	void testeToString() {
 
 		// caso marcado = return x
 		Campo c1 = new Campo(2, 2);
@@ -168,10 +152,5 @@ public class CampoTeste {
 		Campo c5 = new Campo(2, 4);
 
 		System.out.println(c5.toString());
-	}
-	
-	@Test
-	 void t() {
-	
 	}
 }

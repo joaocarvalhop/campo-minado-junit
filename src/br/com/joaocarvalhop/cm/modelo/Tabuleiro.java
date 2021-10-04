@@ -26,11 +26,10 @@ public class Tabuleiro {
 		sortearMinas();
 	}
 	
-	// está com problema
 	public void abrir(int linha, int coluna) {
 		try {
-			campos.parallelStream().filter(c -> c.getLinha() == linha && c.getColuna() == coluna).findFirst()
-					.ifPresent(c -> c.abrir());
+			campos.parallelStream().filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+				.findFirst().ifPresent(c -> c.abrir());
 		} catch (ExplosaoException e) {
 			campos.forEach(c -> c.setAberto(true));
 			throw e;

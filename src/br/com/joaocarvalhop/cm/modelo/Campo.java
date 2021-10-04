@@ -30,10 +30,10 @@ public class Campo {
 		int deltaColuna = Math.abs(coluna - vizinho.coluna);
 		int deltaGeral = deltaLinha + deltaColuna;
 
-		boolean cenarioUm = deltaGeral == 1 && !diagonal;
-		boolean cenarioDois = deltaGeral == 2 && diagonal;
-
-		if (cenarioUm || cenarioDois) {
+		if (deltaGeral == 1 && !diagonal) {
+			vizinhos.add(vizinho);
+			return true;
+		} else if (deltaGeral == 2 && diagonal) {
 			vizinhos.add(vizinho);
 			return true;
 		} else {
@@ -61,18 +61,23 @@ public class Campo {
 			}
 
 			return true;
-		} else
-			return false;
+		}
+		return false;
+	}
+
+	boolean vizinhancaSegura() {
+		// noneMatch - se nenhum dos vizinhos sao minado entao ela é segura
+		return vizinhos.stream().noneMatch(v -> v.minado);
 	}
 
 	void minar() {
 		minado = true;
 	}
-	
+
 	public boolean isMinado() {
 		return minado;
 	}
-	
+
 	void setAberto(boolean aberto) {
 		this.aberto = aberto;
 	}
@@ -89,9 +94,10 @@ public class Campo {
 		return !isAberto();
 	}
 
-	boolean vizinhancaSegura() {
-		// noneMatch - se nenhum dos vizinhos sao minado entao ela é segura
-		return vizinhos.stream().noneMatch(v -> v.minado);
+	boolean objetivoAlcancado() {
+		boolean desvendado = !minado && aberto;
+		boolean protegido = minado && marcado;
+		return desvendado || protegido;
 	}
 
 	public int getLinha() {
@@ -100,12 +106,6 @@ public class Campo {
 
 	public int getColuna() {
 		return coluna;
-	}
-
-	boolean objetivoAlcancado() {
-		boolean desvendado = !minado && aberto;
-		boolean protegido = minado && marcado;
-		return desvendado || protegido;
 	}
 
 	long minasNaVizinhanca() {
